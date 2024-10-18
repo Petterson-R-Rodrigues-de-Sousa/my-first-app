@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, FlatList } from "react-native-gesture-handler";
 
 export function Form(){
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [Imc, setImc] = useState('');
 
-    function imcCalculator()
-    {
-        let TotalImc = (weight/(height*height)).toFixed(2)
+    const [imcList, setImcList] = useState([]);
 
-        setImc(TotalImc)
-    }
 
     function validatorImc()
     {
-        if (weight != '' && height != ''){
-            imcCalculator()
+        console.log(imcList);
+        if (weight !== undefined && height !== undefined){
+            let TotalImc = (weight/(height*height)).toFixed(2)
+
+            //setImcList((arr) => [...arr, TotalImc]);
+            imcList.push(TotalImc) //adicionando um novo índice
+            setImc(TotalImc) // Imc recebe novo resultado
+
+            //setImc(TotalImc)
             setHeight('')
             setWeight('')
         }
@@ -31,7 +34,7 @@ export function Form(){
                     placeholder="Ex. 1.75"
                     value={height}
                     onChangeText={setHeight}
-                    keyboardType="numeric"
+                    inputMode="numeric"
                     style={styles.formInput}
                 />
 
@@ -40,18 +43,29 @@ export function Form(){
                     placeholder="Ex. 67.5"
                     value={weight}
                     onChangeText={setWeight}
-                    keyboardType="numeric"
+                    inputMode="numeric"
                     style={styles.formInput}
                 />
 
             <Pressable
-                onPress={validatorImc}
+                onPress = {() => validatorImc()}
                 style={styles.formButton}
             >
                 <Text style={styles.formButtonText}>Calcular:</Text>
             </Pressable>
 
             <Text style={styles.result}>{Imc}</Text>
+
+            <FlatList
+                data={imcList.reverse()}
+                renderItem={({item}) => {
+                    return (
+                        <View>
+                            <Text>{item}</Text>
+                        </View>
+                    )
+                }}
+            />
             </View>
         </View>
     )    
