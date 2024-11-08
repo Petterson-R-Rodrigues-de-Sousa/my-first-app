@@ -1,10 +1,11 @@
-import { Form } from '@/components/Form/Form';
+//import { Form } from '@/components/Form/Form';
+import { Deladinho } from '@/components/Deladinho/Deladinho';
 import { StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Form/>
+      <Deladinho/>
     </View>
   );
 }
